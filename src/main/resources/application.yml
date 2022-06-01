@@ -1,0 +1,32 @@
+server:
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: true
+    nonSecurePort: 8080
+    securePortEnabled: false
+spring:
+  application:
+    name: ec-gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: ec-users-service
+          uri: lb://ec-users-service
+          predicates:
+            - Path=/users/**
+        - id: ec-products-service
+          uri: lb://ec-products-service
+          predicates:
+            - Path=/products/**
+        - id: ec-carts-service
+          uri: lb://ec-carts-service
+          predicates:
+            - Path=/carts/**
+        - id: ec-sales-service
+          uri: lb://ec-sales-service
+          predicates:
+            - Path=/sales/**
